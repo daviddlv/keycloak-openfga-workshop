@@ -4,7 +4,7 @@ Oidc.Log.logger = console;
 Oidc.Log.level = (process.env.NODE_ENV === 'production') ? Oidc.Log.ERROR : Oidc.Log.DEBUG;
 
 // OIDC configuration
-let oidcProviderDomain = process.env.VUE_APP_OIDC_PROVIDER_DOMAIN || "http://keycloak:8081/realms/master";
+let oidcProviderDomain = process.env.VUE_APP_OIDC_PROVIDER_DOMAIN || "http://keycloak:8080/realms/master";
 let clientId = process.env.VUE_APP_CLIENT_ID || "portal";
 let scopes = "openid profile"
 

@@ -1,8 +1,7 @@
 version: '3'
 
 volumes:
-  postgres_data:
-    driver: local
+  keycloak_postgres_data:
 
 services:
 
@@ -10,13 +9,14 @@ services:
     image: postgres:11
     container_name: keycloak-postgres
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - keycloak_postgres_data:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: keycloak
       POSTGRES_USER: keycloak
       POSTGRES_PASSWORD: password
     ports:
       - 5433:5432
+      
   keycloak:
     image: quay.io/keycloak/keycloak:19.0.2
     container_name: keycloak
@@ -34,8 +34,8 @@ services:
       KC_DB_PASSWORD: password
       KC_HOSTNAME_STRICT: 'false'
       KC_HTTP_ENABLED: 'true'
-      KC_HOSTNAME_ADMIN: keycloak
-      KC_HOSTNAME: keycloak
+      KC_HOSTNAME_ADMIN: localhost
+      KC_HOSTNAME: localhost
       KC_HEALTH_ENABLED: 'true'
       KC_SPI_EVENTS_LISTENER_OPENFGA_EVENTS_SERVICE_HANDLER_NAME: KAFKA
       KC_SPI_EVENTS_LISTENER_OPENFGA_EVENTS_AUTHORIZATION_MODEL: '{"type_definitions":[{"type":"group","relationships":[{"relation":"assignee","object":"role"}]},{"type":"role","relationships":[{"relation":"assignee","object":"user"},{"relation":"parent","object":"role"},{"relation":"parent_group","object":"group"}]}]}'
@@ -70,6 +70,7 @@ services:
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_SERVER_ID: 1
+      
   kafka:
     image: confluentinc/cp-kafka:7.2.2
     hostname: kafka
@@ -88,7 +89,6 @@ services:
       KAFKA_CREATE_TOPICS: openfga-topic:1.1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      KAFKA_ADVERTISED_HOST_NAME: kafka
     depends_on:
       - zookeeper
     healthcheck:

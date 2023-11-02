@@ -8,8 +8,8 @@ services:
     ports:
       - "9090:8080"
     environment: 
-      VUE_APP_OIDC_PROVIDER_DOMAIN: http://keycloak:8081/realms/master
-      VUE_APP_API_URL: http://store-api:9091/api/products
+      VUE_APP_OIDC_PROVIDER_DOMAIN: http://localhost:8081/realms/master
+      VUE_APP_API_URL: http://localhost:9091/api/products
       VUE_APP_CLIENT_ID: portal
     depends_on:
       keycloak:
@@ -25,4 +25,4 @@ services:
     ports:
       - "9091:9091"
     environment: 
-      OIDC_PROVIDER_DOMAIN: http://keycloak:8081/realms/master
+      OIDC_PROVIDER_DOMAIN: http://localhost:8081/realms/master
